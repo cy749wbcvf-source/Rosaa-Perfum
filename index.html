@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rosa Perfume</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  
+
+  <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+  <div class="loader" id="loader" aria-hidden="true">
+    
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <a class="logo" href="#top" aria-label="ROSA Perfume">ROSA</a>
+
+    <div class="nav__links">
+      <a href="#about">Inside the class</a>
+      <a href="#contact">Ping us</a>
+    </div>
+
+    <a class="nav__cta" href="#shop">ROSA PERFUME</a>
+    <button type="button" class="nav__auth" id="auth-open"><span class="nav__auth-tag">Admins</span> Log in</button>
+  </nav>
+
+  <canvas id="bee"></canvas>
+
+  <main>
+    <section class="hero" id="top" data-theme="light">
+      <h1 data-speed="0.55">
+        <span class="line"><span>The finest perfumes in the world</span></span>
+        <span class="line"><span>Available in Rosa Perfume</span></span>
+      </h1>
+
+      <img
+        class="flower flower--cosmos"
+        data-speed="-0.25"
+        data-rot="8"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132919_c994332b-7f9d-43b5-933d-1e94faa91dd4.png"
+        alt=""
+      >
+
+      <div class="pstage" id="pstage"></div>
+
+      <div class="hero__side">
+        <p></p>
+        <a class="join" href="#shop">
+          <i>
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M3 1l4 4-4 4"/>
+            </svg>
+          </i>
+          Shopping
+        </a>
+      </div>
+    </section>
+
+    <section class="s1" id="about" data-theme="light">
+      <img
+        class="flower flower--hang"
+        data-speed="0.35"
+        data-rot="-6"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132924_764b726d-d37a-44cc-8eba-662d823d9a4c.png"
+        alt=""
+      >
+
+      <div class="num reveal">01</div>
+
+      <div class="text">
+        <h2 class="title reveal d1">Guaranteed stability and fuhan<br>Universe of<br></h2>
+        <p class="copy reveal d2">
+         The Power of Longevity & Projection
+
+At ROSA, we believe that a great fragrance is not just about how it smells, but how long it stays and how beautifully it leaves its mark.
+
+Longevity reflects the lasting power of a fragrance on your skin, while projection defines how far its scent travels and captures attention.
+
+Our passion is to help you discover fragrances that offer the perfect balance of exceptional longevity, captivating projection, and an unforgettable scent trail.
+
+Because a truly remarkable fragrance doesn’t just get noticed — it gets remembered.
+        </p>
+      </div>
+    </section>
+
+    <section class="s2" id="access" data-theme="dark">
+      <div class="text">
+        <div class="num reveal">02</div>
+        <h2 class="title reveal d1">Claim Early<br>Invite</h2>
+        <p class="copy reveal d2">
+        ROSA – The Art of Fragrance
+
+Welcome to ROSA, where every fragrance tells a story and every scent creates a lasting impression.
+
+We believe that perfume is more than just a fragrance; it is an expression of personality, elegance, and individuality. At ROSA, we bring you a carefully curated collection of captivating scents designed to inspire confidence, awaken emotions, and leave an unforgettable signature wherever you go.
+
+Discover your signature scent. Embrace your elegance. Experience the essence of ROSA.
+        </p>
+      </div>
+
+      <img
+        class="flower flower--iris"
+        data-speed="-0.3"
+        data-rot="11"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132926_a7892ae5-8052-4e4b-96a8-ccbdcaaaa5ad.png"
+        alt=""
+      >
+    </section>
+
+    <section class="s3" data-theme="light">
+      <img
+        class="flower flower--passion"
+        data-speed="-0.2"
+        data-rot="-10"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132921_d71538ea-5066-4372-963a-2f2d6468374f.png"
+        alt=""
+      >
+
+      <div class="text">
+        <div class="num reveal">03</div>
+        <h2 class="title reveal d1">Excellent delivery experience<br></h2>
+        <p class="copy reveal d2">
+       Fast and guaranteed delivery and 14-day return service 
+        </p>
+      </div>
+    </section>
+
+        <section class="shop" id="shop" data-theme="light">
+      <div class="shop__head">
+        <h2 class="title reveal">Shop</h2>
+        <p class="copy reveal d1">Add your favourite fragrances to the cart, then check out below.</p>
+      </div>
+      <div class="shop__tabs" id="shop-tabs" role="tablist" aria-label="Perfume sections">
+        <button type="button" class="tab is-active" data-filter="all">All</button>
+        <button type="button" class="tab" data-filter="men">Men's Perfumes</button>
+        <button type="button" class="tab" data-filter="women">Women's Perfumes</button>
+        <button type="button" class="tab" data-filter="original">Original Perfumes</button>
+      </div>
+      <div class="pgrid"></div>
+      <p class="shop__empty" id="shop-empty" hidden>New perfumes are coming soon.</p>
+    </section>
+
+    <section class="checkout" id="checkout" data-theme="light">
+      <img class="flower flower--co-top" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132924_764b726d-d37a-44cc-8eba-662d823d9a4c.png" alt="">
+      <img class="flower flower--co-bottom" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261017_132921_d71538ea-5066-4372-963a-2f2d6468374f.png" alt="">
+
+      <div class="shop__head">
+        <h2 class="title">Your cart</h2>
+        <p class="copy">Review your order, add your delivery details and choose how to pay.</p>
+      </div>
+
+      <div class="co">
+        <div id="cart-list" aria-live="polite"></div>
+
+        <div class="co__field">
+          <label for="c-name">Full name</label>
+          <input type="text" id="c-name" autocomplete="name">
+        </div>
+
+        <div class="co__field">
+          <label for="c-phone">Mobile number</label>
+          <input type="tel" id="c-phone" autocomplete="tel" inputmode="tel">
+        </div>
+
+        <div class="co__field">
+          <label for="c-addr">Delivery address</label>
+          <textarea id="c-addr" placeholder="Governorate, city, street, building and apartment (optional if you tap Find my location)"></textarea>
+          <button type="button" class="co__loc" id="c-loc">Find my location</button>
+          <span class="co__status" id="c-loc-status"></span>
+        </div>
+
+        <fieldset class="co__pay">
+          <legend>Payment method</legend>
+
+          <label class="pay-opt"><input type="radio" name="pay" value="InstaPay"><span>InstaPay</span></label>
+          <div class="pay-details">
+            Send the total to <b>ahmed.eldeen466217@instapay</b><br>
+            <a href="https://ipn.eg/S/ahmed.eldeen466217/instapay/2DMkpI" target="_blank" rel="noopener noreferrer">Open InstaPay and pay</a><br>
+            After confirming your order, send the transfer screenshot on WhatsApp.
+          </div>
+
+          <label class="pay-opt"><input type="radio" name="pay" value="Vodafone Cash"><span>Vodafone Cash</span></label>
+          <div class="pay-details">
+            Send the total to <b>01069466217</b><br>
+            After confirming your order, send the transfer screenshot on WhatsApp.
+          </div>
+
+          <label class="pay-opt"><input type="radio" name="pay" value="Cash on delivery"><span>Cash on delivery</span></label>
+          <div class="pay-details">Pay in cash to the courier when you receive your order.</div>
+        </fieldset>
+
+        <div class="co__err" id="c-err" role="alert"></div>
+        <button type="button" class="co__send" id="c-send">Confirm order on WhatsApp</button>
+      </div>
+    </section>
+
+    <section class="foot" id="contact" data-theme="light">
+      <div class="cta">
+        <h2 class="title reveal">Your luxurious fragrance starts here</h2>
+        <a class="join reveal d1" href="#shop">
+          <i>
+<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M3 1l4 4-4 4"/>
+            </svg>
+          </i>
+          Shopping
+        </a>
+      </div>
+
+      <div class="brand reveal">
+        <strong>Rosa Perfume</strong>
+        <span>The Art of Fragrance</span>
+      </div>
+
+      <div class="cols reveal d1">
+        <div>
+          <a href="#">TikTok</a>
+          <a href="https://www.instagram.com/perfume_rosaa/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+        <div>
+          <a href="#">Facebook</a>
+          <a href="https://wa.me/201069466217" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="badge">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <circle cx="6" cy="6" r="4.2"/>
+      <circle cx="14" cy="6" r="4.2" opacity=".75"/>
+      <circle cx="6" cy="14" r="4.2" opacity=".75"/>
+      <circle cx="14" cy="14" r="4.2"/>
+    </svg>
+    <b>Rosa Perfume</b>
+  </div>
+
+  <a class="wa-float" href="https://wa.me/201069466217?text=Hello%20Rosa%20Perfume" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WhatsApp</a>
+
+  <a class="cart-fab" id="cart-fab" href="#checkout" aria-label="Open cart">Cart <b id="cart-count">0</b></a>
+
+  <div class="auth" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="auth__box">
+      <button type="button" class="auth__x" id="auth-close" aria-label="Close">&times;</button>
+      <h2 id="auth-title">Your account</h2>
+      <div class="auth__tabs">
+        <button type="button" class="is-active" id="auth-tab-login">Log in</button>
+        <button type="button" id="auth-tab-signup">Sign up</button>
+      </div>
+      <label for="auth-email">Email</label>
+      <input type="email" id="auth-email" autocomplete="email">
+      <label for="auth-password">Password</label>
+      <input type="password" id="auth-password" autocomplete="current-password" placeholder="At least 6 characters">
+      <button type="button" class="auth__go" id="auth-submit">Log in</button>
+      <button type="button" class="auth__link" id="auth-reset">Forgot password?</button>
+      <div class="auth__msg" id="auth-msg" role="status"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script type="module" src="shop.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script>
+ document.documentElement.classList.add("site-ready");
+ document.body.classList.add("loaded");
+ document.querySelectorAll("main > section").forEach(function(s){s.classList.add("in")});
+</script>
+</body>
+</html>

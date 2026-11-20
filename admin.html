@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rosa Perfume | Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b2942;--muted:#75677f;--lilac:#e5f0fb;--violet:#5b3bd1;--line:rgba(91,59,209,.2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,system-ui,sans-serif;background:var(--lilac);color:var(--ink);padding:18px;max-width:900px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+h1{font-size:22px} h2{font-size:18px;margin:26px 0 10px}
+button{font:inherit;cursor:pointer}
+.btn{padding:9px 18px;border:0;border-radius:999px;background:var(--violet);color:#fff;font-weight:600;font-size:14px}
+.btn.ghost{background:none;border:1.5px solid var(--violet);color:var(--violet)}
+.btn.red{background:#b00020}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stats b{display:block;font-size:22px;color:var(--violet)} .stats span{font-size:12.5px;color:var(--muted)}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;color:var(--ink);background:#fff}
+label{display:block;margin:10px 0 4px;font-size:13px;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:14px} td,th{padding:8px 4px;text-align:left;border-bottom:1px solid var(--line)} th{color:var(--muted);font-weight:500;font-size:12.5px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.row small{color:var(--muted);display:block} .row s{color:var(--muted);font-size:12.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cats label{display:inline-flex;gap:6px;align-items:center;margin-right:14px}.cats input{width:auto}
+#gate{text-align:center;padding:60px 10px} #msg{color:#b00020;margin-top:10px;font-size:14px}
+dialog{border:0;border-radius:20px;padding:20px;width:min(440px,94vw);margin:auto}dialog::backdrop{background:rgba(59,41,66,.5)}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div id="gate"><h1>Rosa Perfume Dashboard</h1><p style="margin:10px 0 18px;color:var(--muted)">Checking your account...</p><a class="btn" href="index.html">Back to site</a><div id="msg"></div></div>
+
+<div id="app" hidden>
+  <header><h1>Dashboard <small style="font-size:11px;color:#75677f;font-weight:400">v14</small></h1><div><a class="btn ghost" href="index.html">Site</a> <button class="btn" id="out">Log out</button></div></header>
+
+  <div class="card" id="diag-card" hidden><b>Connection test</b><div id="diag" style="margin-top:8px;font-size:14px"></div></div>
+  <div class="card"><button class="btn ghost" id="chk">Check site files</button><div id="chk-out" style="margin-top:10px;font-size:14px"></div></div>
+  <h2 style="margin-top:0">Sales</h2>
+  <div class="card"><label for="month">Month</label><input type="month" id="month"></div>
+  <div class="stats">
+    <div class="card"><b id="s-orders">0</b><span>Orders</span></div>
+    <div class="card"><b id="s-rev">0</b><span>Revenue (EGP)</span></div>
+    <div class="card"><b id="s-avg">0</b><span>Average order</span></div>
+  </div>
+  <div class="card"><table><thead><tr><th>Product sold</th><th>Qty</th><th>Revenue</th></tr></thead><tbody id="sold"></tbody></table></div>
+  <div class="card"><b>Orders</b><div id="orders"></div></div>
+
+  <h2>Products</h2>
+  <div class="actions" style="margin:0 0 10px"><button class="btn" id="add">Add product</button><button class="btn red" id="wipe" hidden>Delete all products</button></div>
+  <div class="card" id="plist"></div>
+</div>
+
+<dialog id="dlg">
+  <h2 id="dt" style="margin:0 0 4px">Product</h2>
+  <label>Name</label><input id="f-name">
+  <label>Size (e.g. Eau de Parfum · 100 ml)</label><input id="f-size">
+  <div class="grid2"><div><label>Price (EGP)</label><input id="f-price" type="number" min="0"></div>
+  <div><label>Offer price (optional)</label><input id="f-offer" type="number" min="0"></div></div>
+  <label>Type</label>
+  <div class="cats"><label><input type="checkbox" value="men">Men's</label><label><input type="checkbox" value="women">Women's</label><label><input type="checkbox" value="original">Original</label></div>
+  <label>Description</label><textarea id="f-desc" rows="4"></textarea>
+  <div class="grid2"><div><label>Bottle color 1</label><input id="f-c1" type="color" value="#5b3bd1"></div><div><label>Bottle color 2</label><input id="f-c2" type="color" value="#c9b8ff"></div></div>
+  <label style="display:flex;gap:8px;align-items:center;margin-top:14px"><input id="f-hide" type="checkbox" style="width:auto">Hide from the site (sold out)</label>
+  <label>Product photo</label>
+  <input id="f-img" type="file" accept="image/*">
+  <img id="f-prev" alt="" style="display:none;max-width:100%;max-height:180px;margin-top:8px;border-radius:12px">
+  <button type="button" class="btn ghost" id="rm-img" style="display:none;margin-top:8px">Remove photo</button>
+  <div class="actions"><button class="btn" id="save">Save</button><button class="btn ghost" id="cancel">Cancel</button><button class="btn red" id="del">Delete</button></div>
+  <div id="f-msg" role="status" style="margin-top:12px;font-size:14px;min-height:1.2em"></div>
+</dialog>
+
+<script type="module">
+import { auth, db, isAdmin } from "./fb.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { collection, getDocs, doc, setDoc, deleteDoc, query, where, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const $ = id => document.getElementById(id);
+const esc = t => String(t == null ? "" : t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const n = v => Number(v).toLocaleString("en-US");
+let products = [], editing = null;
+const CHECKS = [["index.html","shop.js"],["shop.js","rosaSaveOrder"],["script.js","rosaSaveOrder"],["extras.js","data-img"],["auth.js","fb.js"],["fb.js","ahmedmohyanz"],["fb.js","initializeFirestore"]];
+$("chk").onclick = async () => {
+  $("chk-out").textContent = "Checking...";
+  const rows = await Promise.all(CHECKS.map(async ([f, k]) => {
+    try { const r = await fetch(f + "?t=" + Date.now(), { cache: "no-store" }); const t = r.ok ? await r.text() : ""; return (t.includes(k) ? "\u2705 " : "\u274c ") + f + (r.ok ? (t.includes(k) ? "" : " (old version, upload the new one)") : " (missing, upload it)"); }
+    catch (e) { return "\u274c " + f + " (error)"; }
+  }));
+  try {
+    const r = await fetch("https://firestore.googleapis.com/v1/projects/rosa-perfume/databases/(default)/documents/products?pageSize=50", { cache: "no-store" });
+    const j = await r.json();
+    rows.push(r.ok ? "\u2705 Visitors can read products: " + (j.documents || []).length + " found" : "\u274c Visitors are blocked from reading products (" + ((j.error && j.error.status) || r.status) + "). Publish firestore.rules in Firebase Console > Firestore > Rules");
+  } catch (e) { rows.push("\u274c Could not test visitor access (network)"); }
+  $("chk-out").innerHTML = rows.map(esc).join("<br>");
+};
+const T = (p, ms = 15000) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej({ code: "timeout - no answer from Firebase" }), ms))]);
+let diagRan = false;
+async function runDiag() {
+  if (diagRan) return; diagRan = true; $("diag-card").hidden = false; $("diag").textContent = "Testing the connection directly...";
+  let t;
+  try {
+    const r = await fetch("https://firestore.googleapis.com/v1/projects/rosa-perfume/databases/(default)/documents/products?pageSize=1", { cache: "no-store" });
+    const j = await r.json().catch(() => ({})); const st = (j.error && j.error.status) || "", ms = (j.error && j.error.message) || "";
+    if (r.ok) t = "\u2705 Firebase answers from this phone. The problem is in the site files: re-upload ALL files from the latest zip (especially fb.js), then refresh.";
+    else if (/does not exist|NOT_FOUND/i.test(st + ms)) t = "\u274c The Firestore database does not exist. In Firebase Console > Firestore Database, tap Create database.";
+    else if (/has not been used|disabled|SERVICE_DISABLED/i.test(ms)) t = "\u274c Cloud Firestore API is off. Open Firebase Console > Firestore Database and create the database (this turns it on).";
+    else if (/PERMISSION_DENIED/.test(st)) t = "\u274c Rules block reading. Publish firestore.rules in Firebase Console > Firestore > Rules.";
+    else t = "\u274c Firebase answered with an error (" + (st || r.status) + "): " + ms;
+  } catch (e) { t = "\u274c This phone or network cannot reach Google servers (firestore.googleapis.com). Turn off VPN, ad blocker or Private Relay, or try Wi-Fi/mobile data."; }
+  $("diag").textContent = t;
+}
+let curImg = "";
+function showImg(){ const p=$("f-prev"); p.src=curImg; p.style.display=curImg?"block":"none"; $("rm-img").style.display=curImg?"inline-block":"none"; }
+function shrink(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onerror=rej; r.onload=()=>{ const im=new Image(); im.onerror=rej; im.onload=()=>{ const k=Math.min(1,700/Math.max(im.width,im.height)); const c=document.createElement("canvas"); c.width=Math.round(im.width*k); c.height=Math.round(im.height*k); const x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height); res(c.toDataURL("image/jpeg",0.82)); }; im.src=r.result; }; r.readAsDataURL(file); }); }
+$("f-img").onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ curImg=await shrink(f); showImg(); }catch(err){ alert("Could not read this image."); } };
+$("rm-img").onclick=()=>{ curImg=""; $("f-img").value=""; showImg(); };
+
+onAuthStateChanged(auth, u => {
+  if (isAdmin(u)) { $("gate").hidden = true; $("app").hidden = false; init(); }
+  else { $("app").hidden = true; $("gate").hidden = false; $("gate").querySelector("p").textContent = u ? "This account is not an admin." : "Log in from the site with your admin account first."; }
+});
+$("out").onclick = () => signOut(auth).then(() => location.href = "index.html");
+
+let started = false;
+function init() {
+  if (started) return; started = true;
+  const d = new Date(); $("month").value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  $("month").onchange = loadSales; loadSales(); loadProducts();
+}
+
+async function loadSales() {
+  const [y, m] = $("month").value.split("-").map(Number);
+  const q = query(collection(db, "orders"), where("createdAt", ">=", Timestamp.fromDate(new Date(y, m - 1, 1))), where("createdAt", "<", Timestamp.fromDate(new Date(y, m, 1))), orderBy("createdAt", "desc"));
+  let orders = [];
+  try { orders = (await T(getDocs(q))).docs.map(d => d.data()); } catch (e) { $("orders").innerHTML = '<p style="color:#b00020">Could not load orders: ' + esc(e.code) + '</p>'; runDiag(); return; }
+  const rev = orders.reduce((a, o) => a + (o.total || 0), 0), sold = {};
+  orders.forEach(o => (o.items || []).forEach(i => { const s = sold[i.name] || (sold[i.name] = { q: 0, r: 0 }); s.q += i.qty; s.r += i.qty * i.price; }));
+  $("s-orders").textContent = orders.length; $("s-rev").textContent = n(rev); $("s-avg").textContent = orders.length ? n(Math.round(rev / orders.length)) : 0;
+  const rows = Object.entries(sold).sort((a, b) => b[1].q - a[1].q);
+  $("sold").innerHTML = rows.length ? rows.map(([k, v]) => "<tr><td>" + esc(k) + "</td><td>" + v.q + "</td><td>" + n(v.r) + "</td></tr>").join("") : '<tr><td colspan="3" style="color:#75677f">No sales this month.</td></tr>';
+  $("orders").innerHTML = orders.map(o => '<div class="row"><div>' + esc(o.name) + '<small>' + esc(o.phone) + ' · ' + esc(o.pay) + ' · ' + (o.createdAt ? o.createdAt.toDate().toLocaleDateString() : "") + '</small><small>' + (o.items || []).map(i => esc(i.name) + " x" + i.qty).join(", ") + '</small></div><b>' + n(o.total) + '</b></div>').join("") || '<p style="color:#75677f;margin-top:8px">No orders.</p>';
+}
+
+async function loadProducts() {
+  try { products = (await T(getDocs(collection(db, "products")))).docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.sort || 0) - (b.sort || 0)); }
+  catch (err) { $("plist").innerHTML = '<p style="color:#b00020">Could not load products: ' + esc(err.code || err.message) + '</p>'; runDiag(); return; }
+  $("wipe").hidden = products.length === 0;
+  $("plist").innerHTML = products.map((p, i) => '<div class="row" style="flex-wrap:wrap"><div>' + (p.img ? '<img src="' + p.img + '" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:10px;float:left;margin-right:10px">' : '') + '<b>' + esc(p.name) + '</b>' + (p.hidden ? ' <small style="display:inline;color:#b00020">Hidden</small>' : '') + '<small>' + esc(p.size) + ' · ' + esc((p.cats || []).join(", ")) + '</small></div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' +
+    (p.offer && p.offer < p.price ? '<s>' + n(p.price) + '</s> <b>' + n(p.offer) + '</b>' : '<b>' + n(p.price) + '</b>') + ' EGP <button class="btn ghost" data-i="' + i + '" data-a="edit">Edit</button><button class="btn ghost" data-i="' + i + '" data-a="hide">' + (p.hidden ? 'Show' : 'Hide') + '</button><button class="btn red" data-i="' + i + '" data-a="del">Delete</button></div></div>').join("") || '<p style="color:#75677f">No products yet. Tap Add product to start.</p>';
+}
+$("plist").onclick = async e => {
+  const b = e.target.closest("[data-i]"); if (!b) return; const p = products[b.dataset.i], act = b.dataset.a;
+  if (act === "edit") return openForm(p);
+  try {
+    if (act === "hide") await setDoc(doc(db, "products", p.id), { hidden: !p.hidden }, { merge: true });
+    if (act === "del") { if (!confirm("Delete " + p.name + " from the site?")) return; await deleteDoc(doc(db, "products", p.id)); }
+    loadProducts();
+  } catch (err) { alert("Failed: " + (err.code || err.message)); }
+};
+$("add").onclick = () => openForm(null);
+$("wipe").onclick = async () => { if (!confirm("Delete ALL " + products.length + " products from the site?")) return; try { for (const p of products) await deleteDoc(doc(db, "products", p.id)); } catch (err) { alert("Failed: " + (err.code || err.message)); } loadProducts(); };
+
+function openForm(p) {
+  editing = p; $("dt").textContent = p ? "Edit product" : "New product"; $("del").hidden = !p; p = p || {};
+  $("f-name").value = p.name || ""; $("f-size").value = p.size || ""; $("f-price").value = p.price || ""; $("f-offer").value = p.offer || ""; $("f-desc").value = p.desc || "";
+  $("f-c1").value = p.c1 || "#5b3bd1"; $("f-c2").value = p.c2 || "#c9b8ff";
+  document.querySelectorAll(".cats input").forEach(c => c.checked = (p.cats || []).includes(c.value));
+  curImg = p.img || ""; $("f-img").value = ""; showImg();
+  $("f-hide").checked = !!p.hidden;
+  $("f-msg").textContent = "";
+  $("dlg").showModal();
+}
+$("cancel").onclick = () => $("dlg").close();
+const fmsg = (t, ok) => { const m = $("f-msg"); m.textContent = t; m.style.color = ok ? "#2e7d32" : "#b00020"; };
+$("save").onclick = async () => {
+  const name = $("f-name").value.trim(), price = Number($("f-price").value);
+  if (!name || !price) return fmsg("Name and price are required.");
+  const data = { name, size: $("f-size").value.trim(), price, offer: Number($("f-offer").value) || null, desc: $("f-desc").value.trim(),
+    cats: [...document.querySelectorAll(".cats input:checked")].map(c => c.value), c1: $("f-c1").value, c2: $("f-c2").value, img: curImg, hidden: $("f-hide").checked, sort: editing ? (editing.sort || 0) : Date.now() };
+  $("save").disabled = true; fmsg("Saving...", true);
+  try {
+    const write = setDoc(doc(db, "products", editing ? editing.id : "p" + Date.now()), data);
+    await Promise.race([write, new Promise((_, rej) => setTimeout(() => rej({ code: "timeout" }), 20000))]);
+    fmsg("Saved \u2713", true);
+    await loadProducts(); setTimeout(() => $("dlg").close(), 500);
+  } catch (err) {
+    const c = err.code || err.message || String(err);
+    fmsg("Could not save (" + c + "). " + (/permission/.test(c) ? "Publish firestore.rules in Firebase Console > Firestore > Rules, and log in with the admin email." : /timeout|unavailable/.test(c) ? "No answer from Firebase. Check the internet and that the Firestore Database is created." : /not-found/.test(c) ? "Create the Firestore Database in Firebase Console first." : ""));
+  } finally { $("save").disabled = false; }
+};
+$("del").onclick = async () => { if (editing && confirm("Delete " + editing.name + "?")) { await deleteDoc(doc(db, "products", editing.id)); $("dlg").close(); loadProducts(); } };
+</script>
+</body>
+</html>
